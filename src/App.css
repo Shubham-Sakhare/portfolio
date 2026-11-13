@@ -347,204 +347,246 @@ a {
   background: radial-gradient(ellipse at 68% 48%, rgba(15, 28, 73, 0.24), transparent 50%);
 }
 
-/* ── Tech Solar System UI ───────────────────────────── */
-.ts-title-badge {
+/* ══════════════════════════════════════════════════════
+   Tech Solar System UI  (v3 — holographic)
+══════════════════════════════════════════════════════ */
+
+/* ── HUD corner badge ─────────────────────────────── */
+.ts-hud-corner {
   position: absolute;
   z-index: 4;
-  top: 8%;
-  right: 6%;
+  top: 7%;
+  right: 5.5%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 5px;
   pointer-events: none;
 }
-
-.ts-badge-label {
-  font: 700 0.72rem/1 "Courier New", monospace;
-  letter-spacing: 0.22em;
-  color: rgba(220, 240, 255, 0.85);
-  text-shadow: 0 0 18px rgba(130, 180, 255, 0.6);
+.ts-hud-title {
+  font: 700 0.74rem/1 "Courier New", monospace;
+  letter-spacing: 0.24em;
+  color: rgba(215, 240, 255, 0.88);
+  text-shadow: 0 0 20px rgba(130, 190, 255, 0.65);
 }
-
-.ts-badge-sub {
-  font: 500 0.5rem/1 "Courier New", monospace;
+.ts-hud-sub {
+  font: 500 0.48rem/1 "Courier New", monospace;
   letter-spacing: 0.18em;
-  color: rgba(160, 200, 255, 0.52);
+  color: rgba(155, 195, 245, 0.5);
 }
-
-.ts-badge-line {
+.ts-hud-line {
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(100, 190, 255, 0.55));
-  margin-top: 3px;
+  background: linear-gradient(90deg, transparent, rgba(100, 185, 255, 0.55));
+  margin: 2px 0;
 }
+.ts-hud-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+}
+.ts-hud-bars i {
+  display: block;
+  width: 4px;
+  border-radius: 2px;
+  background: rgba(100, 200, 255, 0.72);
+  box-shadow: 0 0 7px rgba(80, 190, 255, 0.6);
+  animation: ts-bar 1.2s ease-in-out infinite alternate;
+}
+.ts-hud-bars i:nth-child(1) { height: 6px; }
+.ts-hud-bars i:nth-child(2) { height: 11px; animation-delay: -0.5s; }
+.ts-hud-bars i:nth-child(3) { height: 8px;  animation-delay: -0.9s; }
+.ts-hud-bars i:nth-child(4) { height: 14px; animation-delay: -0.2s; }
+.ts-hud-bars i:nth-child(5) { height: 9px;  animation-delay: -0.7s; }
+.ts-hud-bars i:nth-child(6) { height: 12px; animation-delay: -0.4s; }
+.ts-hud-bars i:nth-child(7) { height: 7px;  animation-delay: -0.8s; }
+@keyframes ts-bar { to { transform: scaleY(0.3); opacity: 0.4; } }
 
-/* detail card */
-.ts-detail-card {
+/* ── Detail card ──────────────────────────────────── */
+.ts-card {
   position: absolute;
   z-index: 4;
-  top: 19%;
+  top: 20%;
   right: 5%;
+  width: 236px;
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  width: 230px;
-  padding: 14px 16px 16px;
-  background: linear-gradient(135deg, rgba(5, 11, 28, 0.94), rgba(10, 20, 44, 0.82));
-  border: 1px solid rgba(100, 170, 255, 0.24);
-  border-left: 2px solid rgba(100, 170, 255, 0.65);
-  border-radius: 6px;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(50, 130, 255, 0.07);
+  gap: 8px;
+  padding: 15px 17px 17px;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px),
+    linear-gradient(140deg, rgba(5, 11, 30, 0.96), rgba(10, 18, 44, 0.86));
+  border: 1px solid rgba(95, 165, 255, 0.22);
+  border-left: 2px solid rgba(95, 165, 255, 0.6);
+  border-radius: 7px;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 0 24px rgba(50, 120, 255, 0.07),
+    inset 0 1px 0 rgba(140, 190, 255, 0.12);
   pointer-events: none;
 }
-
-.ts-detail-kicker {
+.ts-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(130, 200, 255, 0.5), transparent);
+}
+.ts-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ts-card-kicker {
   font: 600 0.5rem/1 "Courier New", monospace;
   letter-spacing: 0.16em;
-  color: rgba(140, 170, 230, 0.68);
+  color: rgba(130, 165, 230, 0.68);
 }
-
-.ts-detail-name {
-  font: 700 1.14rem/1.1 "Poppins", sans-serif;
+.ts-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.ts-card-name {
+  font: 700 1.18rem/1.1 "Poppins", sans-serif;
   letter-spacing: -0.01em;
-  color: #e7f7ff;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: color 0.35s, text-shadow 0.35s;
 }
-
-.ts-detail-desc {
-  font: 400 0.72rem/1.5 "Poppins", sans-serif;
-  color: rgba(205, 220, 255, 0.72);
+.ts-card-desc {
+  font: 400 0.72rem/1.6 "Poppins", sans-serif;
+  color: rgba(205, 220, 252, 0.72);
   margin: 0;
 }
-
-.ts-detail-swatch {
-  width: 28px;
-  height: 4px;
-  border-radius: 999px;
-  margin-top: 4px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+.ts-card-bar {
+  height: 2px;
+  border-radius: 2px;
+  opacity: 0.75;
+  transition: background 0.35s;
+}
+.ts-card-stats {
+  display: flex;
+  gap: 16px;
+  font: 500 0.56rem/1 "Courier New", monospace;
+  letter-spacing: 0.1em;
+  color: rgba(140, 175, 230, 0.6);
+}
+.ts-card-stats strong {
+  color: rgba(210, 235, 255, 0.85);
+  margin-left: 5px;
 }
 
-/* selector bar */
-.ts-selector {
+/* ── Nav selector ─────────────────────────────────── */
+.ts-nav {
   position: absolute;
   z-index: 4;
   left: 55%;
   right: 3%;
-  bottom: 9%;
+  bottom: 8%;
   display: flex;
   flex-wrap: nowrap;
   gap: 5px;
   overflow-x: auto;
-  padding: 6px 4px 10px;
+  padding: 5px 2px 10px;
   scrollbar-width: none;
   pointer-events: auto;
 }
-
-.ts-selector::-webkit-scrollbar { display: none; }
-
-.ts-btn {
+.ts-nav::-webkit-scrollbar { display: none; }
+.ts-nav-btn {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 11px;
-  min-height: 32px;
-  border: 1px solid rgba(110, 150, 220, 0.2);
+  min-height: 31px;
+  border: 1px solid rgba(100, 140, 215, 0.2);
   border-radius: 5px;
-  background: rgba(5, 11, 28, 0.74);
-  color: rgba(200, 218, 248, 0.64);
+  background: rgba(5, 11, 28, 0.76);
+  color: rgba(190, 215, 248, 0.6);
   font: 500 0.65rem/1 "Courier New", monospace;
   letter-spacing: 0.06em;
   cursor: pointer;
-  transition: color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-  pointer-events: auto;
+  transition: all 150ms ease;
 }
-
-.ts-btn:hover {
-  background: rgba(18, 40, 80, 0.72);
+.ts-nav-btn:hover {
+  background: rgba(16, 38, 78, 0.78);
   color: #ddf4ff;
-  border-color: rgba(100, 200, 255, 0.5);
+  border-color: rgba(95, 185, 255, 0.45);
 }
-
-.ts-btn--active {
-  background: rgba(14, 32, 70, 0.78);
+.ts-nav-btn--on {
+  background: rgba(12, 28, 65, 0.86);
   color: #eef8ff;
 }
-
-.ts-swatch {
-  width: 10px;
-  height: 10px;
+.ts-nav-dot {
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   flex-shrink: 0;
+  transition: box-shadow 0.3s;
 }
 
-/* zoom controls */
-.ts-zoom {
+/* ── Zoom ─────────────────────────────────────────── */
+.ts-zoom-wrap {
   position: absolute;
   z-index: 4;
   top: 42%;
-  right: 3.5%;
+  right: 3.2%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
-  border: 1px solid rgba(100, 180, 255, 0.3);
+  border: 1px solid rgba(95, 175, 255, 0.28);
   border-radius: 8px;
   overflow: hidden;
   backdrop-filter: blur(10px);
   pointer-events: auto;
 }
-
-.ts-zoom button {
+.ts-zoom-btn {
   width: 36px;
   height: 36px;
   display: grid;
   place-items: center;
   padding: 0;
   border: none;
-  background: rgba(5, 14, 32, 0.84);
-  color: rgba(190, 225, 255, 0.82);
+  background: rgba(5, 14, 32, 0.86);
+  color: rgba(185, 225, 255, 0.82);
   font-size: 1rem;
   cursor: pointer;
   transition: background 150ms, color 150ms;
 }
-
-.ts-zoom button:hover {
-  background: rgba(22, 60, 120, 0.72);
+.ts-zoom-btn:hover {
+  background: rgba(18, 55, 115, 0.78);
   color: #fff;
 }
-
-.ts-zoom-divider {
+.ts-zoom-sep {
   width: 100%;
   height: 1px;
-  background: rgba(100, 170, 255, 0.22);
+  background: rgba(95, 175, 255, 0.2);
 }
 
-/* hint */
+/* ── Hint ─────────────────────────────────────────── */
 .ts-hint {
   position: absolute;
   z-index: 4;
   right: 5.5%;
-  bottom: 5%;
+  bottom: 4.5%;
   display: flex;
-  gap: 14px;
-  color: rgba(140, 175, 225, 0.44);
+  gap: 15px;
+  color: rgba(130, 170, 220, 0.42);
   font: 600 0.44rem/1 "Courier New", monospace;
   letter-spacing: 0.14em;
   pointer-events: none;
 }
 
-/* mobile overrides */
+/* ── Mobile ───────────────────────────────────────── */
 @media (max-width: 640px) {
-  .ts-title-badge { top: 50%; right: 4%; }
-  .ts-detail-card { top: 56%; right: 4%; width: 175px; padding: 10px 12px; }
-  .ts-detail-name { font-size: 0.95rem; }
-  .ts-selector { left: 4%; right: 4%; bottom: 1%; }
-  .ts-btn { min-height: 26px; padding: 5px 7px; font-size: 0.55rem; }
-  .ts-zoom { top: 72%; right: 4%; }
+  .ts-hud-corner { top: 48%; right: 3%; }
+  .ts-card { top: 54%; right: 3%; width: 172px; padding: 10px 12px; gap: 6px; }
+  .ts-card-name { font-size: 0.95rem; }
+  .ts-nav { left: 3%; right: 3%; bottom: 1%; }
+  .ts-nav-btn { min-height: 25px; padding: 4px 7px; font-size: 0.54rem; }
+  .ts-zoom-wrap { top: 70%; right: 3%; }
   .ts-hint { display: none; }
 }
 
