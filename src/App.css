@@ -3094,3 +3094,316 @@ button, a { font: inherit; }
   .exp-role { font-size: 1rem; white-space: normal; }
   .exp-desc { -webkit-line-clamp: 3; }
 }
+
+/* ════════════════════════════════════════════════════════
+   EXPERIENCE — PREMIUM ZIGZAG TIMELINE
+════════════════════════════════════════════════════════ */
+
+/* outer container — relative for the vertical line */
+.exp-wrapper {
+  position: relative;
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── vertical centre line ─────────────────────────────── */
+.exp-vline {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--accent1) 8%,
+    var(--accent2) 50%,
+    var(--accent1) 92%,
+    transparent 100%);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── each row (left / right alternating) ──────────────── */
+.exp-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  align-items: start;
+  padding: 0 0 52px;
+  z-index: 1;
+}
+
+/* left cards sit in column 1, right cards sit in column 3 */
+.exp-item--left  .exp-flip-card { grid-column: 1; }
+.exp-item--right .exp-flip-card { grid-column: 3; }
+
+.exp-item--left  .exp-index { grid-column: 1; justify-self: start; }
+.exp-item--right .exp-index { grid-column: 3; justify-self: end; }
+
+/* node always in col 2 */
+.exp-node { grid-column: 2; grid-row: 1 / span 2; justify-self: center; align-self: start; margin-top: 24px; }
+.exp-flip-card { grid-row: 1; }
+.exp-index     { grid-row: 2; margin-top: 10px; }
+
+/* ── timeline node (pulsing dot) ──────────────────────── */
+.exp-node {
+  position: relative;
+  width: 20px; height: 20px;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+
+.exp-node-inner {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  box-shadow: 0 0 12px rgba(122, 92, 255, 0.7);
+  position: relative; z-index: 2;
+}
+
+.exp-node-ping {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent1);
+  opacity: 0.5;
+  animation: node-ping 2.4s ease-out infinite;
+}
+
+@keyframes node-ping {
+  0%   { transform: scale(0.6); opacity: 0.6; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* ── index number ─────────────────────────────────────── */
+.exp-index {
+  font: 700 0.65rem/1 "Courier New", monospace;
+  letter-spacing: 0.14em;
+  color: var(--text-mute);
+  opacity: 0.6;
+  align-self: center;
+}
+
+/* ── THE CARD ─────────────────────────────────────────── */
+.exp-flip-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 22px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(145deg,
+      rgba(12, 20, 42, 0.94) 0%,
+      rgba(8, 14, 30, 0.97) 100%);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  transition: transform 0.32s cubic-bezier(.22,.68,0,1.2),
+              border-color 0.3s, box-shadow 0.3s;
+  /* glass sheen */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.055),
+    0 2px 0 rgba(255,255,255,0.025) inset,
+    0 8px 32px rgba(0,0,0,0.35);
+}
+
+.exp-flip-card:hover {
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(130, 165, 255, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 0 1px rgba(122,92,255,0.12),
+    0 24px 60px rgba(80, 100, 255, 0.2),
+    0 4px 20px rgba(0,0,0,0.4);
+}
+
+/* glass highlight overlay on hover */
+.exp-flip-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(122,92,255,0.1), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+.exp-flip-card:hover::after { opacity: 1; }
+
+/* ── coloured top gradient bar ────────────────────────── */
+.exp-flip-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 20px 20px 0 0;
+}
+.exp-bar-0 { background: linear-gradient(90deg, #7a5cff 0%, #1ec8ff 100%); }
+.exp-bar-1 { background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%); }
+.exp-bar-2 { background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); }
+.exp-bar-3 { background: linear-gradient(90deg, #d425ff 0%, #7a5cff 100%); }
+
+/* ── card top row (logo + company + status) ───────────── */
+.exp-flip-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exp-flip-logo {
+  width: 48px; height: 48px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  overflow: hidden;
+  border: 1px solid var(--border-hi);
+  background: rgba(255,255,255,0.03);
+  display: grid; place-items: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.exp-flip-logo img { width: 36px; height: 36px; object-fit: contain; }
+
+/* current / completed pill */
+.exp-status-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.exp-status-0 {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+}
+.exp-status-1,
+.exp-status-2,
+.exp-status-3 {
+  background: rgba(100, 160, 255, 0.1);
+  border: 1px solid rgba(100, 160, 255, 0.22);
+  color: rgba(150, 200, 255, 0.85);
+}
+
+.exp-flip-company {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent2);
+  margin: 0;
+  line-height: 1;
+}
+
+/* ── role headline ────────────────────────────────────── */
+.exp-flip-role {
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ── duration pill ────────────────────────────────────── */
+.exp-flip-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(30, 200, 255, 0.07);
+  border: 1px solid rgba(30, 200, 255, 0.18);
+  color: rgba(130, 210, 255, 0.78);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+/* ── description ──────────────────────────────────────── */
+.exp-flip-desc {
+  font-size: 0.86rem;
+  line-height: 1.8;
+  color: var(--text-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── chip / skill tags ────────────────────────────────── */
+.exp-chip-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.exp-chip-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.exp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.exp-chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: rgba(122, 92, 255, 0.09);
+  border: 1px solid rgba(122, 92, 255, 0.2);
+  color: rgba(185, 165, 255, 0.85);
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  white-space: nowrap;
+}
+.exp-chip:hover {
+  background: rgba(122, 92, 255, 0.2);
+  border-color: rgba(122, 92, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE — collapse to single column
+════════════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .exp-wrapper { gap: 0; }
+
+  .exp-vline {
+    left: 20px;
+    transform: none;
+  }
+
+  .exp-item {
+    grid-template-columns: 44px 1fr;
+    padding: 0 0 36px 0;
+  }
+
+  /* all cards go to column 2 */
+  .exp-item--left  .exp-flip-card,
+  .exp-item--right .exp-flip-card { grid-column: 2; }
+
+  .exp-item--left  .exp-index,
+  .exp-item--right .exp-index { grid-column: 2; justify-self: start; }
+
+  .exp-node { grid-column: 1; }
+
+  .exp-vline { left: 20px; }
+}
+
+@media (max-width: 640px) {
+  .exp-flip-card { padding: 20px 16px 18px; }
+  .exp-flip-role { font-size: 1rem; }
+  .exp-flip-desc { -webkit-line-clamp: 3; }
+  .exp-node-ping { display: none; }
+}

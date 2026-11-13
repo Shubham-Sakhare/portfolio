@@ -437,52 +437,70 @@ export default function App() {
             </div>
           </Reveal>
 
-          <div className="exp-grid">
+          <div className="exp-wrapper">
             {experiences.map((job, i) => (
-              <Reveal key={job.id} delay={i * 70}>
-                <article className="exp-card">
-                  {/* top accent line — unique color per card */}
-                  <div className={`exp-card-accent exp-accent-${i}`} />
+              <Reveal key={job.id} delay={i * 90}>
+                <div className={`exp-item exp-item--${i % 2 === 0 ? "left" : "right"}`}>
 
-                  {/* header */}
-                  <div className="exp-card-header">
-                    <div className="exp-logo-wrap">
-                      <img src={job.img} alt={job.company} />
-                    </div>
-                    <div className="exp-header-info">
-                      <h3 className="exp-role">{job.role}</h3>
-                      <span className="exp-company">{job.company}</span>
-                    </div>
-                    <span className="exp-type-badge">
-                      {job.date.includes("Intern") ? "Intern" : "Full-time"}
-                    </span>
+                  {/* index number */}
+                  <div className="exp-index">{String(i + 1).padStart(2,"0")}</div>
+
+                  {/* connector dot on timeline */}
+                  <div className="exp-node">
+                    <div className="exp-node-inner" />
+                    <div className="exp-node-ping" />
                   </div>
 
-                  {/* date strip */}
-                  <div className="exp-date-strip">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                    </svg>
-                    {job.date}
-                  </div>
+                  {/* card */}
+                  <article className="exp-flip-card">
+                    {/* glow border top */}
+                    <div className={`exp-flip-bar exp-bar-${i}`} />
 
-                  {/* description */}
-                  <p className="exp-desc">{job.desc}</p>
-
-                  {/* skill tags */}
-                  {job.skills?.length > 0 && (
-                    <div className="exp-skills-wrap">
-                      <span className="exp-skills-label">Tech Stack</span>
-                      <div className="exp-skills">
-                        {job.skills.map(s => (
-                          <span key={s} className="exp-skill-tag">{s}</span>
-                        ))}
+                    {/* logo + meta row */}
+                    <div className="exp-flip-top">
+                      <div className="exp-flip-logo">
+                        <img src={job.img} alt={job.company} />
+                      </div>
+                      <div>
+                        <span className={`exp-status-pill exp-status-${i}`}>
+                          {i === 0 ? "● Current" : "✓ Completed"}
+                        </span>
+                        <p className="exp-flip-company">{job.company}</p>
                       </div>
                     </div>
-                  )}
-                </article>
+
+                    {/* role headline */}
+                    <h3 className="exp-flip-role">{job.role}</h3>
+
+                    {/* duration */}
+                    <div className="exp-flip-duration">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                      </svg>
+                      {job.date}
+                    </div>
+
+                    {/* description */}
+                    <p className="exp-flip-desc">{job.desc}</p>
+
+                    {/* skill chips */}
+                    {job.skills?.length > 0 && (
+                      <div className="exp-chip-wrap">
+                        <div className="exp-chip-label">Tech Stack</div>
+                        <div className="exp-chips">
+                          {job.skills.map(s => (
+                            <span key={s} className="exp-chip">{s}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </article>
+                </div>
               </Reveal>
             ))}
+
+            {/* vertical centre line */}
+            <div className="exp-vline" aria-hidden="true" />
           </div>
         </section>
 
