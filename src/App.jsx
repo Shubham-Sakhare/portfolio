@@ -1,6 +1,7 @@
-import { lazy, Suspense, useState, useEffect, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
 import { Bio, education, experiences, projects, skills } from "./data/constants";
+import ShubhamPhoto from "./images/Shubham.webp";
 
 const HeroAiCore = lazy(() => import("./components/TechSolarSystem"));
 
@@ -72,10 +73,120 @@ function Reveal({ children, className = "", delay = 0 }) {
 }
 
 /* ═══════════════════════════════════════════════
+   SKILLS CAROUSEL
+═══════════════════════════════════════════════ */
+function SkillsCarousel() {
+  const [activeTab, setActiveTab] = useState(skills.length); // "All" by default
+  const trackRef = useRef(null);
+  const [canLeft,  setCanLeft]  = useState(false);
+  const [canRight, setCanRight] = useState(true);
+
+  const allSkills    = skills.flatMap(g => g.skills);
+  const currentSkills = activeTab === skills.length
+    ? allSkills
+    : skills[activeTab].skills;
+
+  // Check scroll position to show/hide arrows
+  const updateArrows = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollLeft = 0;
+    updateArrows();
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    return () => el.removeEventListener("scroll", updateArrows);
+  }, [activeTab, updateArrows]);
+
+  const scroll = (dir) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
+
+  return (
+    <section className="skills-section" id="skills">
+      <Reveal>
+        <div className="section-header center-header">
+          <h2>My Skills</h2>
+          <p>Technologies and tools I work with</p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="skill-tabs">
+          {skills.map((group, i) => (
+            <button
+              key={group.title}
+              className={`skill-tab${activeTab === i ? " skill-tab--active" : ""}`}
+              onClick={() => setActiveTab(i)}
+              type="button"
+            >
+              {group.title}
+            </button>
+          ))}
+          <button
+            className={`skill-tab${activeTab === skills.length ? " skill-tab--active" : ""}`}
+            onClick={() => setActiveTab(skills.length)}
+            type="button"
+          >
+            All
+          </button>
+        </div>
+      </Reveal>
+
+      <Reveal delay={160}>
+        <div className="skill-carousel-wrap">
+          {/* Left arrow */}
+          <button
+            className={`skill-arrow skill-arrow--left${canLeft ? "" : " skill-arrow--hidden"}`}
+            onClick={() => scroll(-1)}
+            aria-label="Scroll skills left"
+            type="button"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+
+          {/* Scrollable track */}
+          <div className="skill-track" ref={trackRef}>
+            {currentSkills.map((skill, i) => (
+              <div className="skill-card" key={`${skill.name}-${i}`}>
+                <div className="skill-card-icon-wrap">
+                  <img src={skill.image} alt={skill.name} />
+                </div>
+                <span>{skill.name}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Right arrow */}
+          <button
+            className={`skill-arrow skill-arrow--right${canRight ? "" : " skill-arrow--hidden"}`}
+            onClick={() => scroll(1)}
+            aria-label="Scroll skills right"
+            type="button"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
    APP
 ═══════════════════════════════════════════════ */
 export default function App() {
-  const [activeSkillTab, setActiveSkillTab] = useState(0);
   const [showAllProjects, setShowAllProjects] = useState(false);
 
   const displayedProjects = showAllProjects ? projects : projects.slice(0, 3);
@@ -151,75 +262,106 @@ export default function App() {
       <main className="page-shell">
 
         {/* ── Skills ──────────────────────────────── */}
-        <section className="skills-section" id="skills">
-          <Reveal>
-            <div className="section-header center-header">
-              <h2>My Skills</h2>
-              <p>Technologies and tools I work with</p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <div className="skill-tabs">
-              {skills.map((group, i) => (
-                <button
-                  key={group.title}
-                  className={`skill-tab${activeSkillTab === i ? " skill-tab--active" : ""}`}
-                  onClick={() => setActiveSkillTab(i)}
-                  type="button"
-                >
-                  {group.title}
-                </button>
-              ))}
-              <button
-                className={`skill-tab${activeSkillTab === skills.length ? " skill-tab--active" : ""}`}
-                onClick={() => setActiveSkillTab(skills.length)}
-                type="button"
-              >
-                All
-              </button>
-            </div>
-          </Reveal>
-
-          <div className="skill-grid">
-            {(activeSkillTab === skills.length
-              ? skills.flatMap(g => g.skills)
-              : skills[activeSkillTab].skills
-            ).map((skill, i) => (
-              <Reveal key={`${skill.name}-${i}`} delay={i * 40}>
-                <div className="skill-card">
-                  <div className="skill-card-icon-wrap">
-                    <img src={skill.image} alt={skill.name} />
-                  </div>
-                  <span>{skill.name}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        <SkillsCarousel />
 
         {/* ── About ───────────────────────────────── */}
         <section className="about-section" id="about-me">
           <Reveal>
             <div className="about-visual">
-              <div className="about-frame">
-                <div className="profile-figure">
-                  <div className="head" />
-                  <div className="body" />
+
+              {/* ── LinkedIn-style ID Card ── */}
+              <div className="linkedin-card">
+                {/* gloss overlay */}
+                <div className="lc-gloss" aria-hidden="true" />
+
+                {/* header bar */}
+                <div className="lc-header">
+                  <svg className="lc-li-icon" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  <span className="lc-header-label">Professional Network ID</span>
                 </div>
-                <div className="about-frame-label">
-                  <span>Shubham</span>
-                  <small>Web Developer</small>
+
+                {/* profile row */}
+                <div className="lc-profile">
+                  <div className="lc-avatar-wrap">
+                    <img src={ShubhamPhoto} alt="Shubham Sakhare" className="lc-avatar" />
+                    <span className="lc-online-dot" aria-label="Online" />
+                  </div>
+                  <div className="lc-profile-info">
+                    <h3 className="lc-name">{Bio.name}</h3>
+                    <span className="lc-connections">500+ Connections</span>
+                  </div>
                 </div>
+
+                {/* role */}
+                <p className="lc-role">Web &amp; WordPress Developer</p>
+
+                {/* detail rows */}
+                <div className="lc-details">
+                  <div className="lc-detail-row">
+                    <span className="lc-detail-key">Location</span>
+                    <span className="lc-detail-val">Nanded, India</span>
+                  </div>
+                  <div className="lc-detail-row">
+                    <span className="lc-detail-key">Experience</span>
+                    <span className="lc-detail-val">3+ Years</span>
+                  </div>
+                  <div className="lc-detail-row">
+                    <span className="lc-detail-key">Projects</span>
+                    <span className="lc-detail-val">10+ Delivered</span>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <a
+                  href={Bio.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="lc-connect-btn"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  Connect on LinkedIn
+                </a>
+
+                {/* QR placeholder — scan goes to LinkedIn */}
+                <a
+                  href={Bio.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="lc-qr-wrap"
+                  aria-label="Scan to open LinkedIn profile"
+                >
+                  <svg viewBox="0 0 100 100" width="52" height="52" fill="currentColor" opacity="0.85">
+                    {/* QR code SVG pattern */}
+                    <rect x="5"  y="5"  width="30" height="30" rx="3" fill="none" stroke="currentColor" strokeWidth="5"/>
+                    <rect x="14" y="14" width="12" height="12" rx="1"/>
+                    <rect x="65" y="5"  width="30" height="30" rx="3" fill="none" stroke="currentColor" strokeWidth="5"/>
+                    <rect x="74" y="14" width="12" height="12" rx="1"/>
+                    <rect x="5"  y="65" width="30" height="30" rx="3" fill="none" stroke="currentColor" strokeWidth="5"/>
+                    <rect x="14" y="74" width="12" height="12" rx="1"/>
+                    <rect x="45" y="5"  width="8"  height="8"/>
+                    <rect x="45" y="17" width="8"  height="8"/>
+                    <rect x="57" y="5"  width="8"  height="8"/>
+                    <rect x="45" y="45" width="8"  height="8"/>
+                    <rect x="57" y="45" width="8"  height="8"/>
+                    <rect x="69" y="45" width="8"  height="8"/>
+                    <rect x="81" y="45" width="14" height="8"/>
+                    <rect x="45" y="57" width="8"  height="8"/>
+                    <rect x="69" y="57" width="8"  height="8"/>
+                    <rect x="81" y="57" width="8"  height="8"/>
+                    <rect x="57" y="69" width="8"  height="8"/>
+                    <rect x="69" y="69" width="8"  height="8"/>
+                    <rect x="81" y="69" width="14" height="14"/>
+                    <rect x="45" y="81" width="8"  height="14"/>
+                    <rect x="57" y="81" width="8"  height="8"/>
+                  </svg>
+                  <span>Scan to connect</span>
+                </a>
               </div>
-              <div className="about-quote">Dream Big...<br />Build Better</div>
-              {/* floating badge */}
-              <div className="about-badge about-badge--exp">
-                <strong>3+</strong><small>Years Exp.</small>
-              </div>
-              <div className="about-badge about-badge--proj">
-                <strong>10+</strong><small>Projects</small>
-              </div>
+
             </div>
           </Reveal>
 
