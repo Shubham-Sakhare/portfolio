@@ -369,34 +369,59 @@ export default function App() {
             <div className="about-content">
               <div className="section-header left-header">
                 <h2>About Me</h2>
+                <p>Passionate developer crafting premium web experiences</p>
               </div>
 
-              <p>{Bio.description}</p>
+              <p className="about-desc">{Bio.description}</p>
 
+              {/* Stats row */}
               <div className="about-metrics">
                 <div className="metric-box">
-                  <span className="metric-icon">🚀</span>
-                  <strong>3+</strong>
-                  <small>Years of Experience</small>
+                  <div className="metric-icon-wrap">
+                    <span className="metric-emoji">🚀</span>
+                  </div>
+                  <div className="metric-text">
+                    <strong>4+</strong>
+                    <small>Years of Experience</small>
+                  </div>
                 </div>
                 <div className="metric-box">
-                  <span className="metric-icon check">✓</span>
-                  <strong>10+</strong>
-                  <small>Projects Delivered</small>
+                  <div className="metric-icon-wrap green">
+                    <span className="metric-emoji">✦</span>
+                  </div>
+                  <div className="metric-text">
+                    <strong>30+</strong>
+                    <small>Projects Delivered</small>
+                  </div>
                 </div>
                 <div className="metric-box">
-                  <span className="metric-icon heart">♥</span>
-                  <strong>100%</strong>
-                  <small>Client Satisfaction</small>
+                  <div className="metric-icon-wrap pink">
+                    <span className="metric-emoji">♥</span>
+                  </div>
+                  <div className="metric-text">
+                    <strong>100%</strong>
+                    <small>Client Satisfaction</small>
+                  </div>
                 </div>
               </div>
 
+              {/* skill highlight tags */}
+              <div className="about-tags">
+                {["WordPress", "React", "PHP", "JavaScript", "WooCommerce", "SEO", "Elementor", "MySQL"].map(t => (
+                  <span key={t} className="about-tag">{t}</span>
+                ))}
+              </div>
+
+              {/* CTA buttons */}
               <div className="about-cta">
                 <a className="primary-btn" href={Bio.linkedin} target="_blank" rel="noreferrer">
-                  Connect on LinkedIn <span>↗</span>
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  Connect on LinkedIn
                 </a>
-                <a className="secondary-btn" href={Bio.github} target="_blank" rel="noreferrer">
-                  View GitHub <span>↗</span>
+                <a className="secondary-btn" href={Bio.resume} target="_blank" rel="noreferrer">
+                  Download Resume ↗
                 </a>
               </div>
             </div>
