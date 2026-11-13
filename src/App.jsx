@@ -37,40 +37,45 @@ function App() {
         </a>
       </header>
 
-      <main className="page-shell">
-        <section className="hero-section" id="about">
-          <Suspense fallback={<div className="hero-ai-scene hero-ai-backdrop hero-ai-loading" aria-hidden="true" />}>
-            <HeroAiCore />
-          </Suspense>
-          <div className="hero-copy">
-            <span className="availability-pill">
-              <span className="dots" />
-              Available for work
-            </span>
+      {/* Hero — full viewport, outside page-shell */}
+      <section className="hero-section" id="about">
+        <Suspense fallback={<div className="hero-scene-wrap hero-ai-loading" aria-hidden="true" />}>
+          <div className="hero-scene-wrap"><HeroAiCore /></div>
+        </Suspense>
 
-            <h1 className="hero-title">
-              Hi, I am
-              <span className="highlight-block">{Bio.name}</span>
-            </h1>
+        {/* left copy — positioned over the scene */}
+        <div className="hero-copy">
+          <span className="availability-pill">
+            <span className="dots" />
+            Available for work
+          </span>
 
-            <p className="role-row">
-              I am a <span>{roleText}</span>
-            </p>
+          <h1 className="hero-title">
+            Hi, I am
+            <span className="highlight-block">{Bio.name}</span>
+          </h1>
 
-            <p className="hero-description">{Bio.description}</p>
+          <p className="role-row">
+            I am a <span>{roleText}</span>
+          </p>
 
-            <div className="cta-row">
-              <a className="primary-btn" href="#projects">
-                View My Projects <span>→</span>
-              </a>
-              <a className="secondary-btn" href={Bio.resume} target="_blank" rel="noreferrer">
-                Download Resume
-              </a>
-            </div>
+          <p className="hero-description">{Bio.description}</p>
+
+          <div className="cta-row">
+            <a className="primary-btn" href="#projects">
+              View My Projects <span>→</span>
+            </a>
+            <a className="secondary-btn" href={Bio.resume} target="_blank" rel="noreferrer">
+              Download Resume
+            </a>
           </div>
+        </div>
 
-          <div className="hero-visual" aria-hidden="true" />
-        </section>
+        {/* decorative bottom fade */}
+        <div className="hero-bottom-fade" aria-hidden="true" />
+      </section>
+
+      <main className="page-shell">
 
         <section className="skills-section" id="skills">
           <div className="section-header center-header">

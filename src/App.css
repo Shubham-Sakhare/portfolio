@@ -210,20 +210,76 @@ a {
   margin: 14px auto 0;
 }
 
+/* ══════════════════════════════════════════════
+   HERO SECTION — full-width, immersive
+══════════════════════════════════════════════ */
 .hero-section {
   position: relative;
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  align-items: center;
-  gap: 32px;
-  padding: 54px 0 30px;
+  width: 100%;
+  height: 100vh;
+  min-height: 680px;
+  max-height: 940px;
+  overflow: hidden;
   isolation: isolate;
+  /* no box, no border-radius — full bleed */
 }
 
+/* The Three.js canvas wrapper fills the whole section */
+.hero-scene-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-scene-wrap > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Copy sits in the left half, vertically centred */
 .hero-copy {
-  position: relative;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: max(40px, calc((100% - 1240px) / 2 + 40px));
+  transform: translateY(-50%);
+  max-width: 580px;
+  pointer-events: auto;
+}
+
+/* Soft left-side gradient so text stays readable */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(100deg,
+      rgba(2, 8, 22, 0.88) 0%,
+      rgba(2, 8, 22, 0.72) 32%,
+      rgba(2, 8, 22, 0.28) 55%,
+      transparent 72%),
+    linear-gradient(180deg,
+      rgba(2, 8, 22, 0.55) 0%,
+      transparent 20%,
+      transparent 75%,
+      rgba(2, 8, 22, 0.70) 100%);
+  pointer-events: none;
+}
+
+/* Bottom fade into next section */
+.hero-bottom-fade {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
   z-index: 2;
-  max-width: 620px;
+  background: linear-gradient(to bottom, transparent, #020914);
+  pointer-events: none;
+}
+
+/* Loading state */
+.hero-ai-loading {
+  background: radial-gradient(circle at center, rgba(0, 191, 255, 0.15), transparent 58%);
 }
 
 .availability-pill {
@@ -311,19 +367,15 @@ a {
 }
 
 .hero-visual {
-  position: relative;
-  min-height: 620px;
-  z-index: 1;
-  pointer-events: none;
+  display: none; /* removed — scene fills full section now */
 }
 
 .hero-ai-scene {
   position: absolute;
-  inset: -5% -4%;
+  inset: 0;
   z-index: 1;
-  overflow: visible;
+  overflow: hidden;
   isolation: isolate;
-  perspective: 1200px;
   pointer-events: auto;
 }
 
@@ -1461,14 +1513,16 @@ a {
     flex-wrap: wrap;
   }
 
-  .hero-section,
+  .hero-copy {
+    left: 24px;
+    right: 24px;
+    max-width: 100%;
+    transform: translateY(-50%);
+  }
+
   .about-section,
   .bottom-panel {
     grid-template-columns: 1fr;
-  }
-
-  .hero-visual {
-    min-height: 500px;
   }
 
   .about-content {
@@ -1503,20 +1557,24 @@ a {
   }
 
   .hero-section {
-    padding-top: 26px;
+    min-height: 100svh;
+    max-height: none;
+  }
+
+  .hero-copy {
+    top: auto;
+    bottom: 140px;
+    left: 20px;
+    right: 20px;
+    transform: none;
   }
 
   .highlight-block {
     white-space: normal;
   }
 
-  .hero-visual {
-    min-height: 400px;
-    overflow: visible;
-  }
-
   .hero-ai-scene {
-    inset: -2% -5%;
+    inset: 0;
   }
 
   .solar-title {
