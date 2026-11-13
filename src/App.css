@@ -342,7 +342,8 @@ a {
   background: radial-gradient(circle at center, rgba(0, 191, 255, 0.15), transparent 58%);
 }
 
-.solar-system-scene {
+.solar-system-scene,
+.tech-solar-scene {
   background: radial-gradient(ellipse at 68% 48%, rgba(15, 28, 73, 0.24), transparent 50%);
 }
 

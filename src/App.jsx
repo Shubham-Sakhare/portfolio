@@ -9,7 +9,7 @@ import {
 } from "./data/constants";
 
 const roleText = "Frontend Developer";
-const HeroAiCore = lazy(() => import("./components/SolarSystemHero"));
+const HeroAiCore = lazy(() => import("./components/TechSolarSystem"));
 
 function App() {
   return (
