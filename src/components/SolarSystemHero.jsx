@@ -14,11 +14,12 @@ const planetData = [
 
 const getFocusZoom = (name) => {
   if (name === "System") return 13.6;
-  if (name === "Sun") return 4.5;
-  if (name === "Moon" || name === "Mercury") return 2.4;
-  if (name === "Jupiter" || name === "Saturn") return 3.2;
-  if (name === "Uranus" || name === "Neptune") return 3;
-  return 2.8;
+  if (name === "Sun") return 7.5;
+  if (name === "Moon") return 5.2;
+  if (name === "Mercury") return 6.5;
+  if (name === "Jupiter" || name === "Saturn") return 6.8;
+  if (name === "Uranus" || name === "Neptune") return 6.8;
+  return 7.2;
 };
 
 const SolarSystemHero = () => {
@@ -80,7 +81,7 @@ const SolarSystemHero = () => {
     const sunLight = new THREE.PointLight(0xffd49a, 100, 90, 1.35);
 
     const sunSystem = new THREE.Group();
-    const systemHome = { x: 1.55, y: 0.12 };
+    const systemHome = { x: 3.5, y: 0.12 };
     sunSystem.position.set(systemHome.x, systemHome.y, 0);
     universe.add(sunSystem);
 
@@ -277,8 +278,8 @@ const SolarSystemHero = () => {
       orbitY: 0.03,
       targetOrbitX: -0.19,
       targetOrbitY: 0.03,
-      zoom: 4.2,
-      targetZoom: 2.8,
+      zoom: 7.2,
+      targetZoom: 7.2,
       focus: "Earth",
       pointerX: 0,
       pointerY: 0,
@@ -294,7 +295,7 @@ const SolarSystemHero = () => {
       camera.position.z = mobile ? 10.2 : 13.6;
       if (mobile && !interaction.mobileFocusSet) {
         interaction.focus = "Earth";
-        interaction.targetZoom = 3.4;
+        interaction.targetZoom = 8.2;
         interaction.mobileFocusSet = true;
       }
       camera.updateProjectionMatrix();

@@ -248,7 +248,7 @@ a {
 
 .hero-title {
   margin-top: 18px;
-  font-size: clamp(3rem, 5.2vw, 5.1rem);
+  font-size: clamp(3rem, 4.4vw, 3.9rem);
   line-height: 1.08;
   letter-spacing: -0.06em;
   font-weight: 800;
@@ -257,6 +257,7 @@ a {
 
 .highlight-block {
   display: block;
+  white-space: nowrap;
   background: linear-gradient(90deg, #d390ff 0%, #8ed2ff 35%, #a67bff 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -365,6 +366,7 @@ a {
 .hero-ai-vignette {
   z-index: 2;
   background:
+    linear-gradient(90deg, rgba(2, 7, 18, 0.88) 0%, rgba(2, 7, 18, 0.68) 27%, rgba(2, 7, 18, 0.22) 48%, transparent 68%),
     radial-gradient(ellipse at 73% 48%, rgba(0, 191, 255, 0.14), transparent 34%),
     radial-gradient(ellipse at 80% 47%, rgba(139, 92, 255, 0.14), transparent 48%),
     radial-gradient(ellipse at 50% 50%, transparent 28%, rgba(3, 9, 23, 0.08) 62%, rgba(3, 9, 23, 0.48) 100%);
@@ -553,11 +555,15 @@ a {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-width: 230px;
+  max-width: 245px;
   padding: 12px 14px;
-  border-left: 1px solid rgba(98, 200, 255, 0.55);
-  background: linear-gradient(90deg, rgba(7, 17, 39, 0.72), rgba(7, 17, 39, 0));
+  border: 1px solid rgba(98, 200, 255, 0.28);
+  border-left: 2px solid rgba(98, 200, 255, 0.72);
+  border-radius: 5px;
+  background: linear-gradient(135deg, rgba(5, 13, 30, 0.92), rgba(8, 21, 43, 0.78));
   color: rgba(209, 229, 255, 0.7);
+  box-shadow: inset 0 0 20px rgba(49, 142, 255, 0.08), 0 8px 28px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
 }
 
 .solar-detail-kicker {
@@ -583,13 +589,21 @@ a {
   right: 4%;
   bottom: 10%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 7px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 6px 4px 10px;
+  scrollbar-width: none;
   pointer-events: auto;
 }
 
+.solar-selector::-webkit-scrollbar {
+  display: none;
+}
+
 .solar-selector button {
+  flex: 0 0 auto;
   min-height: 34px;
   display: inline-flex;
   align-items: center;
@@ -599,7 +613,7 @@ a {
   border-radius: 4px;
   background: rgba(5, 13, 30, 0.72);
   color: rgba(206, 221, 246, 0.66);
-  font: 500 0.6rem/1 "Courier New", monospace;
+  font: 500 0.66rem/1 "Courier New", monospace;
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
 }
@@ -1248,6 +1262,10 @@ a {
     padding-top: 26px;
   }
 
+  .highlight-block {
+    white-space: normal;
+  }
+
   .hero-visual {
     min-height: 400px;
     overflow: visible;
@@ -1274,7 +1292,7 @@ a {
     left: 4%;
     right: 4%;
     bottom: 1%;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 4px;
   }
 
