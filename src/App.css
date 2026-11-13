@@ -2899,3 +2899,198 @@ button, a { font: inherit; }
   .about-cta .primary-btn,
   .about-cta .secondary-btn { width: 100%; justify-content: center; }
 }
+
+/* ════════════════════════════════════════════════════════
+   EXPERIENCE SECTION — ADVANCED GRID CARDS
+════════════════════════════════════════════════════════ */
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-top: 44px;
+}
+
+/* ── card base ───────────────────────────────────────── */
+.exp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 26px 24px 22px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(145deg, rgba(10, 18, 36, 0.92), rgba(8, 14, 28, 0.96));
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition: transform 0.32s cubic-bezier(.22,.68,0,1.2),
+              border-color 0.3s, box-shadow 0.3s;
+}
+
+/* subtle inner glow */
+.exp-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(122,92,255,0.07), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.exp-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(130, 160, 255, 0.38);
+  box-shadow:
+    0 0 0 1px rgba(122, 92, 255, 0.1),
+    0 20px 56px rgba(80, 100, 255, 0.18),
+    0 4px 16px rgba(0,0,0,0.3);
+}
+.exp-card:hover::before { opacity: 1; }
+
+/* ── coloured top accent bars ────────────────────────── */
+.exp-card-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 20px 20px 0 0;
+}
+.exp-accent-0 { background: linear-gradient(90deg, #7a5cff, #1ec8ff); }
+.exp-accent-1 { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.exp-accent-2 { background: linear-gradient(90deg, #10b981, #06b6d4); }
+.exp-accent-3 { background: linear-gradient(90deg, #d425ff, #7a5cff); }
+
+/* ── header ──────────────────────────────────────────── */
+.exp-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.exp-logo-wrap {
+  width: 54px; height: 54px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  border: 1px solid var(--border-hi);
+  background: rgba(255,255,255,0.04);
+  display: grid; place-items: center;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+.exp-logo-wrap img { width: 40px; height: 40px; object-fit: contain; }
+
+.exp-header-info { flex: 1; min-width: 0; }
+
+.exp-role {
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.25;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exp-company {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent2);
+}
+
+/* ── type badge (Full-time / Intern) ─────────────────── */
+.exp-type-badge {
+  flex-shrink: 0;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: rgba(122, 92, 255, 0.14);
+  border: 1px solid rgba(122, 92, 255, 0.3);
+  color: rgba(185, 165, 255, 0.9);
+}
+
+/* ── date strip ──────────────────────────────────────── */
+.exp-date-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(30, 200, 255, 0.07);
+  border: 1px solid rgba(30, 200, 255, 0.16);
+  color: rgba(140, 210, 255, 0.78);
+  font-size: 0.74rem;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+/* ── description ─────────────────────────────────────── */
+.exp-desc {
+  font-size: 0.87rem;
+  line-height: 1.78;
+  color: var(--text-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* ── skills area ─────────────────────────────────────── */
+.exp-skills-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.exp-skills-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.exp-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.exp-skill-tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: rgba(122, 92, 255, 0.1);
+  border: 1px solid rgba(122, 92, 255, 0.2);
+  color: rgba(185, 165, 255, 0.88);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+.exp-skill-tag:hover {
+  background: rgba(122, 92, 255, 0.22);
+  border-color: rgba(122, 92, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ── responsive ──────────────────────────────────────── */
+@media (max-width: 860px) {
+  .exp-grid { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media (max-width: 640px) {
+  .exp-card { padding: 20px 18px 18px; }
+  .exp-role { font-size: 1rem; white-space: normal; }
+  .exp-desc { -webkit-line-clamp: 3; }
+}

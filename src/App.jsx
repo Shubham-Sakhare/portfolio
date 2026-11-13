@@ -437,31 +437,49 @@ export default function App() {
             </div>
           </Reveal>
 
-          <div className="experience-timeline">
+          <div className="exp-grid">
             {experiences.map((job, i) => (
-              <Reveal key={job.id} delay={i * 80}>
-                <article className="experience-card">
-                  <div className="exp-timeline-dot" />
-                  <div className="exp-card-inner">
-                    <div className="experience-top">
-                      <div className="company-mark">
-                        <img src={job.img} alt={job.company} />
-                      </div>
-                      <div className="exp-title">
-                        <h3>{job.role}</h3>
-                        <span className="exp-company">{job.company}</span>
-                        <span className="exp-date">{job.date}</span>
-                      </div>
+              <Reveal key={job.id} delay={i * 70}>
+                <article className="exp-card">
+                  {/* top accent line — unique color per card */}
+                  <div className={`exp-card-accent exp-accent-${i}`} />
+
+                  {/* header */}
+                  <div className="exp-card-header">
+                    <div className="exp-logo-wrap">
+                      <img src={job.img} alt={job.company} />
                     </div>
-                    <p>{job.desc}</p>
-                    {job.skills && (
+                    <div className="exp-header-info">
+                      <h3 className="exp-role">{job.role}</h3>
+                      <span className="exp-company">{job.company}</span>
+                    </div>
+                    <span className="exp-type-badge">
+                      {job.date.includes("Intern") ? "Intern" : "Full-time"}
+                    </span>
+                  </div>
+
+                  {/* date strip */}
+                  <div className="exp-date-strip">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    {job.date}
+                  </div>
+
+                  {/* description */}
+                  <p className="exp-desc">{job.desc}</p>
+
+                  {/* skill tags */}
+                  {job.skills?.length > 0 && (
+                    <div className="exp-skills-wrap">
+                      <span className="exp-skills-label">Tech Stack</span>
                       <div className="exp-skills">
                         {job.skills.map(s => (
                           <span key={s} className="exp-skill-tag">{s}</span>
                         ))}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </article>
               </Reveal>
             ))}
