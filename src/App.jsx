@@ -207,10 +207,10 @@ export default function App() {
                     <span className="lc-connections">500+ Connections</span>
                   </div>
                 </div>
-                <p className="lc-role">Web &amp; WordPress Developer</p>
+                <p className="lc-role">Software Engineer</p>
                 <div className="lc-details">
                   <div className="lc-detail-row"><span className="lc-detail-key">Location</span><span className="lc-detail-val">Nanded, India</span></div>
-                  <div className="lc-detail-row"><span className="lc-detail-key">Experience</span><span className="lc-detail-val">4+ Years</span></div>
+                  <div className="lc-detail-row"><span className="lc-detail-key">Experience</span><span className="lc-detail-val">5+ Years</span></div>
                   <div className="lc-detail-row"><span className="lc-detail-key">Projects</span><span className="lc-detail-val">30+ Delivered</span></div>
                 </div>
                 <a href={Bio.linkedin} target="_blank" rel="noreferrer" className="lc-connect-btn">
@@ -246,7 +246,7 @@ export default function App() {
               <div className="about-metrics">
                 <div className="metric-box">
                   <div className="metric-icon-wrap"><span className="metric-emoji">🚀</span></div>
-                  <div className="metric-text"><strong>4+</strong><small>Years of Experience</small></div>
+                  <div className="metric-text"><strong>5+</strong><small>Years of Experience</small></div>
                 </div>
                 <div className="metric-box">
                   <div className="metric-icon-wrap green"><span className="metric-emoji">✦</span></div>
@@ -404,7 +404,7 @@ export default function App() {
         <div className="footer-inner">
           <div className="footer-brand">
             <div className="brand-mark">S</div>
-            <div><strong>{Bio.name}</strong><small>Web &amp; WordPress Developer</small></div>
+            <div><strong>{Bio.name}</strong><small>Software Engineer</small></div>
           </div>
           <nav className="footer-nav" aria-label="Footer navigation">
             <a href="#about">Home</a><a href="#skills">Skills</a>
