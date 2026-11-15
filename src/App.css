@@ -80,79 +80,256 @@ button, a { font: inherit; }
 .page-shell,
 .site-footer { position: relative; z-index: 2; }
 
+/* ════════════════════════════════════════════════════════
+   NAVBAR — Premium animated header
+════════════════════════════════════════════════════════ */
 .topbar {
   position: sticky;
   top: 12px;
   z-index: 50;
   width: min(1240px, calc(100% - 32px));
   margin: 12px auto 0;
-  padding: 10px 20px 10px 14px;
+  padding: 10px 16px 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
+
+  /* pill shape */
   border-radius: 999px;
-  border: 1px solid var(--border-hi);
-  background: rgba(5, 12, 26, 0.82);
-  backdrop-filter: blur(20px);
+  border: 1px solid rgba(110, 150, 255, 0.22);
+  background: rgba(5, 10, 24, 0.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+
+  /* layered glow */
   box-shadow:
-    0 2px 0 rgba(255,255,255,0.04) inset,
+    0 0 0 1px rgba(100, 140, 255, 0.07),
+    0 2px 0 rgba(255, 255, 255, 0.045) inset,
     0 8px 32px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(100, 140, 255, 0.08);
+    0 0 60px rgba(122, 92, 255, 0.07);
+
+  /* animate on page load */
+  animation: nav-drop 0.65s cubic-bezier(.22,.68,0,1.1) both;
+  transition:
+    padding 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    top 0.35s ease;
 }
 
+@keyframes nav-drop {
+  from { transform: translateY(-24px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* scrolled — tighter + more opaque */
+.topbar--scrolled {
+  top: 8px;
+  padding: 8px 16px 8px 12px;
+  background: rgba(4, 8, 20, 0.92);
+  border-color: rgba(110, 150, 255, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(100, 140, 255, 0.1),
+    0 2px 0 rgba(255, 255, 255, 0.055) inset,
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 0 80px rgba(122, 92, 255, 0.1);
+}
+
+/* ── Brand ───────────────────────────────────────────── */
 .brand-wrap {
   display: flex;
   align-items: center;
-  gap: 11px;
-  min-width: 180px;
+  gap: 10px;
+  flex-shrink: 0;
   text-decoration: none;
   color: inherit;
 }
 
 .brand-mark {
+  position: relative;
   width: 38px;
   height: 38px;
   border-radius: 50%;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
+  box-shadow: 0 0 18px rgba(122, 92, 255, 0.55);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brand-wrap:hover .brand-mark {
+  transform: scale(1.08) rotate(8deg);
+  box-shadow: 0 0 28px rgba(122, 92, 255, 0.8);
+}
+
+.brand-mark-letter {
   font-weight: 800;
   font-size: 1rem;
   color: #fff;
-  background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
-  box-shadow: 0 0 20px rgba(122, 92, 255, 0.6);
-  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* rotating ring on hover */
+.brand-mark-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.3);
+  animation: ring-spin 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.brand-wrap:hover .brand-mark-ring { opacity: 1; }
+
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .brand-name {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text);
 }
 
+.brand-title {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Nav links ───────────────────────────────────────── */
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   flex: 1;
   justify-content: center;
 }
 
-.main-nav a {
+.nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   color: var(--text-dim);
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 6px 13px;
   border-radius: 999px;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.22s, background 0.22s;
+  overflow: hidden;
 }
 
-.main-nav a:hover {
+/* liquid fill on hover */
+.nav-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(122, 92, 255, 0.1);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(.22,.68,0,1.2);
+}
+
+.nav-link:hover { color: var(--text); }
+.nav-link:hover::before { transform: scaleX(1); }
+
+/* active dot indicator */
+.nav-link-dot {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent2);
+  box-shadow: 0 0 6px var(--accent2);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.nav-link--active {
   color: var(--text);
-  background: rgba(120, 150, 255, 0.1);
+  background: rgba(122, 92, 255, 0.12);
 }
 
+.nav-link--active .nav-link-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Right group ─────────────────────────────────────── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* icon buttons with tooltip */
+.nav-icon-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.nav-icon-btn:hover {
+  color: var(--text);
+  background: rgba(122, 92, 255, 0.14);
+  border-color: rgba(122, 92, 255, 0.5);
+  box-shadow: 0 0 16px rgba(122, 92, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* tooltip */
+.nav-icon-tooltip {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  white-space: nowrap;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(10, 18, 36, 0.95);
+  border: 1px solid var(--border-hi);
+  padding: 4px 9px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10;
+}
+
+.nav-icon-btn:hover .nav-icon-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Resume button */
 .nav-button {
   display: inline-flex;
   align-items: center;
@@ -160,20 +337,26 @@ button, a { font: inherit; }
   padding: 8px 18px;
   border-radius: 999px;
   text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--text);
-  background: linear-gradient(135deg, rgba(122,92,255,0.22), rgba(30,200,255,0.12));
-  border: 1px solid rgba(120, 160, 255, 0.4);
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2) 60%, var(--accent1));
+  background-size: 200% 100%;
+  background-position: left center;
+  border: none;
+  box-shadow: 0 4px 20px rgba(122, 92, 255, 0.4);
+  transition: background-position 0.4s ease, transform 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
 
 .nav-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(100, 130, 255, 0.3);
-  border-color: rgba(140, 180, 255, 0.65);
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(122, 92, 255, 0.6);
 }
+
+.nav-button svg { transition: transform 0.2s; }
+.nav-button:hover svg { transform: translate(2px, -2px); }
 
 /* ════════════════════════════════════════════════════════
    HERO SECTION — full-viewport immersive
@@ -3654,12 +3837,12 @@ button, a { font: inherit; }
     position: sticky;
     top: 8px;
     width: calc(100% - 20px);
-    padding: 10px 14px;
+    padding: 9px 12px;
     border-radius: 16px;
   }
 
-  /* brand name — shorter on small screens */
-  .brand-name { font-size: 0.9rem; }
+  /* hide subtitle on mobile */
+  .brand-title { display: none; }
 
   /* hero */
   .hero-section { min-height: 100svh; max-height: none; }
