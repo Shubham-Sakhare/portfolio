@@ -100,32 +100,81 @@ function SkillsCarousel() {
 export default function App() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [menuOpen, setMenuOpen]               = useState(false);
+  const [scrolled, setScrolled]               = useState(false);
+  const [activeLink, setActiveLink]           = useState("about");
+
   const displayedProjects = showAllProjects ? projects : projects.slice(0, 3);
   const closeMenu = () => setMenuOpen(false);
+
+  // scroll shrink effect
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // active nav link highlight on scroll
+  useEffect(() => {
+    const sections = ["about", "skills", "about-me", "experience", "education", "projects", "contact"];
+    const obs = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => { if (e.isIntersecting) setActiveLink(e.target.id); });
+      },
+      { threshold: 0.3 }
+    );
+    sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <div className={`portfolio-app${menuOpen ? " menu-is-open" : ""}`}>
 
       {/* ══ NAVBAR ════════════════════════════════ */}
-      <header className={`topbar${menuOpen ? " nav-open" : ""}`}>
+      <header className={`topbar${menuOpen ? " nav-open" : ""}${scrolled ? " topbar--scrolled" : ""}`}>
         <div className="brand-wrap">
-          <div className="brand-mark">S</div>
-          <span className="brand-name">{Bio.name}</span>
+          <div className="brand-mark">
+            <span className="brand-mark-letter">S</span>
+            <span className="brand-mark-ring" aria-hidden="true" />
+          </div>
+          <div className="brand-text">
+            <span className="brand-name">{Bio.name}</span>
+            <span className="brand-title">Software Engineer</span>
+          </div>
         </div>
 
         <nav className="main-nav" aria-label="Main navigation">
-          <a href="#about">Home</a>
-          <a href="#skills">Skills</a>
-          <a href="#experience">Experience</a>
-          <a href="#education">Education</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
+          {[
+            { href: "#about",      label: "Home",       id: "about" },
+            { href: "#skills",     label: "Skills",     id: "skills" },
+            { href: "#experience", label: "Experience", id: "experience" },
+            { href: "#education",  label: "Education",  id: "education" },
+            { href: "#projects",   label: "Projects",   id: "projects" },
+            { href: "#contact",    label: "Contact",    id: "contact" },
+          ].map(({ href, label, id }) => (
+            <a
+              key={id}
+              href={href}
+              className={`nav-link${activeLink === id ? " nav-link--active" : ""}`}
+            >
+              {label}
+              <span className="nav-link-dot" aria-hidden="true" />
+            </a>
+          ))}
         </nav>
 
         <div className="nav-right">
-          <a href={Bio.github}   target="_blank" rel="noreferrer" className="nav-icon-btn" aria-label="GitHub"><GithubIcon /></a>
-          <a href={Bio.linkedin} target="_blank" rel="noreferrer" className="nav-icon-btn" aria-label="LinkedIn"><LinkedinIcon /></a>
-          <a className="nav-button" href={Bio.resume} target="_blank" rel="noreferrer">Resume <span>↗</span></a>
+          <a href={Bio.github}   target="_blank" rel="noreferrer" className="nav-icon-btn" aria-label="GitHub">
+            <GithubIcon />
+            <span className="nav-icon-tooltip">GitHub</span>
+          </a>
+          <a href={Bio.linkedin} target="_blank" rel="noreferrer" className="nav-icon-btn" aria-label="LinkedIn">
+            <LinkedinIcon />
+            <span className="nav-icon-tooltip">LinkedIn</span>
+          </a>
+          <a className="nav-button" href={Bio.resume} target="_blank" rel="noreferrer">
+            <span>Resume</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </a>
         </div>
 
         {/* hamburger */}
